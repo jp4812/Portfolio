@@ -103,28 +103,34 @@
 
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 800px; /* Keep it tight like a floating card */
       z-index: 100;
-      padding: 20px 0;
-      background: linear-gradient(to bottom, rgba(5, 8, 16, 0.92), transparent);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08); /* Card Style Border */
+      border-radius: 100px; /* Pill Shape */
+      transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     }
 
     nav.scrolled {
-      border-bottom-color: var(--border);
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      top: 16px; /* Dynamic floating effect when scrolling */
     }
 
     .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
     }
 
     .nav-logo {
@@ -1327,21 +1333,29 @@
         grid-template-columns: 1fr;
       }
 
+      nav {
+        top: auto;
+        bottom: 24px;
+        margin-bottom: env(safe-area-inset-bottom);
+        width: calc(100% - 32px);
+        padding: 14px 24px;
+        border-radius: 100px; /* Floating pill on mobile */
+      }
+      
+      nav.scrolled {
+        top: auto;
+        bottom: 16px;
+      }
+      
+      .nav-logo {
+        display: none; /* remove logo from bottom bar to reserve space for links */
+      }
+
       .nav-links {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: 0;
-        padding: 16px 20px;
-        padding-bottom: calc(16px + env(safe-area-inset-bottom));
-        background: rgba(5, 8, 16, 0.95);
-        backdrop-filter: blur(14px);
-        border-top: 1px solid var(--border);
+        width: 100%;
         display: flex;
         justify-content: space-between;
         gap: 0;
-        z-index: 100;
       }
 
       .nav-links a {
