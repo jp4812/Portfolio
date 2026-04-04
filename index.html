@@ -103,38 +103,28 @@
 
     nav {
       position: fixed;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 48px);
-      max-width: 800px;
-      /* Keep it tight like a floating card */
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
-      padding: 12px 28px;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      /* Card Style Border */
-      border-radius: 100px;
-      /* Pill Shape */
-      transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 20px 0;
+      background: linear-gradient(to bottom, rgba(5, 8, 16, 0.92), transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
     }
 
     nav.scrolled {
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-      top: 16px;
-      /* Dynamic floating effect when scrolling */
+      border-bottom-color: var(--border);
     }
 
     .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
     }
 
     .nav-logo {
@@ -1337,40 +1327,8 @@
         grid-template-columns: 1fr;
       }
 
-      nav {
-        top: auto;
-        bottom: 24px;
-        margin-bottom: env(safe-area-inset-bottom);
-        width: calc(100% - 32px);
-        padding: 14px 24px;
-        border-radius: 100px;
-        /* Floating pill on mobile */
-      }
-
-      nav.scrolled {
-        top: auto;
-        bottom: 16px;
-      }
-
-      .nav-logo {
-        display: none;
-        /* remove logo from bottom bar to reserve space for links */
-      }
-
       .nav-links {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        gap: 0;
-      }
-
-      .nav-links a {
-        font-size: 0.6rem;
-        letter-spacing: 0.05em;
-      }
-
-      footer {
-        padding-bottom: 100px;
+        display: none;
       }
 
       .card-3d {
@@ -1389,120 +1347,11 @@
         width: 100%;
         max-width: 320px;
       }
-
-      .loader-logo {
-        font-size: 2.5rem;
-      }
-    }
-
-    body.loading {
-      overflow: hidden !important;
-    }
-
-    #page-loader {
-      position: fixed;
-      inset: 0;
-      background: #050810;
-      z-index: 999999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.8s cubic-bezier(.23, 1, .32, 1), visibility 0.8s;
-    }
-
-    #page-loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loader-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 3.5rem;
-      letter-spacing: -0.04em;
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #fff;
-    }
-
-    .loader-logo span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: loaderPulse 1.5s infinite alternate ease-in-out;
-    }
-
-    .loader-dot {
-      width: 14px;
-      height: 14px;
-      background: var(--accent3);
-      border-radius: 50%;
-      animation: pulse-green 1.5s ease-in-out infinite;
-    }
-
-    .loader-bar-bg {
-      width: 160px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .loader-bar-fill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-      border-radius: 4px;
-      animation: loaderFill 1.8s cubic-bezier(.23, 1, .32, 1) forwards;
-    }
-
-    @keyframes loaderPulse {
-      0% {
-        filter: drop-shadow(0 0 15px rgba(91, 156, 246, 0.1));
-        transform: scale(0.98);
-      }
-
-      100% {
-        filter: drop-shadow(0 0 35px rgba(167, 139, 250, 0.4));
-        transform: scale(1.02);
-      }
-    }
-
-    @keyframes loaderFill {
-      0% {
-        width: 0%;
-      }
-
-      50% {
-        width: 70%;
-      }
-
-      100% {
-        width: 100%;
-      }
     }
   </style>
 </head>
 
-<body class="loading">
-
-  <!-- LOADER -->
-  <div id="page-loader">
-    <div class="loader-logo">
-      <div></div><span>Compiling the experience...</span>
-    </div>
-    <div class="loader-bar-bg">
-      <div class="loader-bar-fill"></div>
-    </div>
-  </div>
+<body>
 
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="cursor-dot" id="cursorDot"></div>
@@ -1535,8 +1384,7 @@
             <div class="status-dot"></div>B.Tech CSE · 2024–2028
           </div>
           <div class="hero-tag">Portfolio 2025</div>
-          <h1 class="hero-name"><b style="font-weight:inherit;" id="scramble1">Jemil</b><br><span
-              id="scramble2">Patel</span></h1>
+          <h1 class="hero-name">Jemil<br><span>Patel</span></h1>
           <div class="hero-edu">Nirma University, Ahmedabad</div>
           <div class="hero-edu-meta">CGPA: 8.85 &nbsp;·&nbsp; JEE Main 98.59 percentile &nbsp;·&nbsp; JEE Advanced
             Qualified</div>
@@ -1596,7 +1444,7 @@
           <div class="edu-uni">Nirma University, Ahmedabad &nbsp;·&nbsp; 2024–2028</div>
           <div class="edu-meta">
             <span class="edu-chip green">CGPA: 8.85 (3 semesters)</span>
-            <!-- <span class="edu-chip">3rd Year Ongoing</span> -->
+            <span class="edu-chip">1st Year Ongoing</span>
             <span class="edu-chip gold">IBM AI Foundations Certified</span>
           </div>
         </div>
@@ -1929,52 +1777,6 @@
 
     // PARTICLES
     for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.className = 'particle'; const s = Math.random() * 3 + 1, h = Math.random() > .5 ? 215 : 260; p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}vw;background:hsla(${h},70%,70%,.6);animation-duration:${Math.random() * 6 + 4}s;animation-delay:${Math.random() * 5}s;`; document.body.appendChild(p); }
-
-    // DECRYPTED TEXT LOGIC
-    const scr1 = document.getElementById('scramble1'), scr2 = document.getElementById('scramble2');
-    if (scr1) scr1.innerText = '     ';
-    if (scr2) scr2.innerText = '     ';
-
-    function runDecryptedText() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
-      const decryptNode = (nodeId, text, delay) => {
-        const el = document.getElementById(nodeId);
-        if (!el) return;
-        let iterations = 0;
-        setTimeout(() => {
-          const interval = setInterval(() => {
-            let result = "";
-            for (let i = 0; i < text.length; i++) {
-              if (i < Math.floor(iterations)) {
-                result += text[i];
-              } else {
-                result += chars[Math.floor(Math.random() * chars.length)];
-              }
-            }
-            el.innerText = result;
-            if (iterations >= text.length) {
-              clearInterval(interval);
-              el.innerText = text;
-            }
-            iterations += 1 / 3;
-          }, 30);
-        }, delay);
-      };
-      decryptNode('scramble1', 'Jemil', 0);
-      decryptNode('scramble2', 'Patel', 300);
-    }
-
-    // LOADER
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const loader = document.getElementById('page-loader');
-        if (loader) {
-          loader.classList.add('hidden');
-          runDecryptedText(); // Trigger text scramble as page fades in!
-          setTimeout(() => { document.body.classList.remove('loading'); loader.style.display = 'none'; }, 800);
-        }
-      }, 1600); // 1.6s minimal loading time for aesthetics
-    });
   </script>
 </body>
 
