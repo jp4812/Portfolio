@@ -1348,6 +1348,144 @@
         max-width: 320px;
       }
     }
+
+    /* ===== BORDER GLOW (ported from ReactBits) ===== */
+    .card-3d.border-glow-card {
+      --edge-proximity: 0;
+      --cursor-angle: 45deg;
+      --edge-sensitivity: 30;
+      --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+      --border-radius: 20px;
+      --glow-padding: 40px;
+      --cone-spread: 25;
+      --fill-opacity: 0.3;
+      --card-bg: transparent;
+      --glow-color: hsl(215deg 70% 65% / 100%);
+      --glow-color-60: hsl(215deg 70% 65% / 60%);
+      --glow-color-50: hsl(215deg 70% 65% / 50%);
+      --glow-color-40: hsl(215deg 70% 65% / 40%);
+      --glow-color-30: hsl(215deg 70% 65% / 30%);
+      --glow-color-20: hsl(215deg 70% 65% / 20%);
+      --glow-color-10: hsl(215deg 70% 65% / 10%);
+      --gradient-one: radial-gradient(at 80% 55%, #5b9cf6 0px, transparent 50%);
+      --gradient-two: radial-gradient(at 69% 34%, #a78bfa 0px, transparent 50%);
+      --gradient-three: radial-gradient(at 8% 6%, #34d399 0px, transparent 50%);
+      --gradient-four: radial-gradient(at 41% 38%, #5b9cf6 0px, transparent 50%);
+      --gradient-five: radial-gradient(at 86% 85%, #a78bfa 0px, transparent 50%);
+      --gradient-six: radial-gradient(at 82% 18%, #5b9cf6 0px, transparent 50%);
+      --gradient-seven: radial-gradient(at 51% 4%, #34d399 0px, transparent 50%);
+      --gradient-base: linear-gradient(#5b9cf6 0 100%);
+      border-radius: var(--border-radius);
+      display: grid;
+      overflow: visible;
+      isolation: isolate;
+      transform: translate3d(0, 0, 0.01px);
+    }
+
+    .card-3d.border-glow-card::before,
+    .card-3d.border-glow-card::after,
+    .card-3d.border-glow-card > .edge-light {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      transition: opacity 0.25s ease-out;
+      z-index: -1;
+    }
+
+    .card-3d.border-glow-card:not(:hover)::before,
+    .card-3d.border-glow-card:not(:hover)::after,
+    .card-3d.border-glow-card:not(:hover) > .edge-light {
+      opacity: 0;
+      transition: opacity 0.75s ease-in-out;
+    }
+
+    .card-3d.border-glow-card::before {
+      border: 1px solid transparent;
+      background:
+        linear-gradient(transparent 0 100%) padding-box,
+        linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+        var(--gradient-one) border-box,
+        var(--gradient-two) border-box,
+        var(--gradient-three) border-box,
+        var(--gradient-four) border-box,
+        var(--gradient-five) border-box,
+        var(--gradient-six) border-box,
+        var(--gradient-seven) border-box,
+        var(--gradient-base) border-box;
+      opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+      mask-image: conic-gradient(
+        from var(--cursor-angle) at center,
+        black calc(var(--cone-spread) * 1%),
+        transparent calc((var(--cone-spread) + 15) * 1%),
+        transparent calc((100 - var(--cone-spread) - 15) * 1%),
+        black calc((100 - var(--cone-spread)) * 1%)
+      );
+    }
+
+    .card-3d.border-glow-card::after {
+      border: 1px solid transparent;
+      background:
+        var(--gradient-one) padding-box,
+        var(--gradient-two) padding-box,
+        var(--gradient-three) padding-box,
+        var(--gradient-four) padding-box,
+        var(--gradient-five) padding-box,
+        var(--gradient-six) padding-box,
+        var(--gradient-seven) padding-box,
+        var(--gradient-base) padding-box;
+      mask-image:
+        linear-gradient(to bottom, black, black),
+        radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+        radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+        conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+      mask-composite: subtract, add, add, add, add, add;
+      opacity: calc(var(--fill-opacity) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+      mix-blend-mode: soft-light;
+    }
+
+    .card-3d.border-glow-card > .edge-light {
+      inset: calc(var(--glow-padding) * -1);
+      pointer-events: none;
+      z-index: 1;
+      mask-image: conic-gradient(
+        from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+      );
+      opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+      mix-blend-mode: plus-lighter;
+    }
+
+    .card-3d.border-glow-card > .edge-light::before {
+      content: "";
+      position: absolute;
+      inset: var(--glow-padding);
+      border-radius: inherit;
+      box-shadow:
+        inset 0 0 0 1px var(--glow-color),
+        inset 0 0 1px 0 var(--glow-color-60),
+        inset 0 0 3px 0 var(--glow-color-50),
+        inset 0 0 6px 0 var(--glow-color-40),
+        inset 0 0 15px 0 var(--glow-color-30),
+        inset 0 0 25px 2px var(--glow-color-20),
+        inset 0 0 50px 2px var(--glow-color-10),
+        0 0 1px 0 var(--glow-color-60),
+        0 0 3px 0 var(--glow-color-50),
+        0 0 6px 0 var(--glow-color-40),
+        0 0 15px 0 var(--glow-color-30),
+        0 0 25px 2px var(--glow-color-20),
+        0 0 50px 2px var(--glow-color-10);
+    }
+
+    .card-3d.border-glow-card > .border-glow-inner {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: visible;
+      z-index: 1;
+    }
   </style>
 </head>
 
@@ -1414,9 +1552,12 @@
         </div>
 
         <div class="hero-visual">
-          <div class="card-3d" id="card3d">
-            <div class="card-face" style="padding: 0; display: flex;">
-              <img src="Jemil.jpeg" alt="Jemil" style="width: 100%; height: auto; object-fit: cover;" />
+          <div class="card-3d border-glow-card" id="card3d">
+            <span class="edge-light"></span>
+            <div class="border-glow-inner">
+              <div class="card-face" style="padding: 0; display: flex;">
+                <img src="Jemil.jpeg" alt="Jemil" style="width: 100%; height: auto; object-fit: cover;" />
+              </div>
             </div>
           </div>
         </div>
@@ -1747,7 +1888,7 @@
       g.addColorStop(0, 'rgba(91,156,246,0.04)'); g.addColorStop(.5, 'rgba(167,139,250,0.025)'); g.addColorStop(1, 'transparent');
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
       nodes.forEach(n => { n.a += n.speed; n.x = n.ox + Math.cos(n.a) * n.orbitR; n.y = n.oy + Math.sin(n.a) * n.orbitR; n.ox += n.vx; n.oy += n.vy; if (n.ox < -100) n.ox = W + 100; if (n.ox > W + 100) n.ox = -100; if (n.oy < -100) n.oy = H + 100; if (n.oy > H + 100) n.oy = -100; });
-      for (let i = 0; i < nodes.length; i++)for (let j = i + 1; j < nodes.length; j++) { const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy); if (d < 140) { ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.strokeStyle = `hsla(${nodes[i].hue},70%,65%,${(1 - d / 140) * .12})`; ctx.lineWidth = .7; ctx.stroke(); } }
+      for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) { const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy); if (d < 140) { ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.strokeStyle = `hsla(${nodes[i].hue},70%,65%,${(1 - d / 140) * .12})`; ctx.lineWidth = .7; ctx.stroke(); } }
       nodes.forEach(n => { const gn = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 3); gn.addColorStop(0, `hsla(${n.hue},70%,70%,.7)`); gn.addColorStop(1, `hsla(${n.hue},70%,70%,0)`); ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3, 0, Math.PI * 2); ctx.fillStyle = gn; ctx.fill(); ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = `hsla(${n.hue},80%,75%,.85)`; ctx.fill(); });
       requestAnimationFrame(draw);
     }
@@ -1772,10 +1913,28 @@
     const ioCount = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { animCount(document.getElementById('counter1'), 98.59, 2); animCount(document.getElementById('counter2'), 8.85, 2); animCount(document.getElementById('counter3'), 200, 0, '+'); ioCount.disconnect(); } }); }, { threshold: .5 });
     ioCount.observe(document.querySelector('.card-3d'));
     const ioCp = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { animCount(document.getElementById('cpCounter'), 200, 0, '+'); ioCp.disconnect(); } }); }, { threshold: .4 });
-    ioCp.observe(document.getElementById('cpCounter'));
+    const _cpEl = document.getElementById('cpCounter');
+    if (_cpEl) ioCp.observe(_cpEl);
 
-    // PARTICLES
-    for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.className = 'particle'; const s = Math.random() * 3 + 1, h = Math.random() > .5 ? 215 : 260; p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}vw;background:hsla(${h},70%,70%,.6);animation-duration:${Math.random() * 6 + 4}s;animation-delay:${Math.random() * 5}s;`; document.body.appendChild(p); }
+    // BORDER GLOW — vanilla JS port
+    (function() {
+      const bgCard = document.getElementById('card3d');
+      if (!bgCard) return;
+      bgCard.addEventListener('pointermove', function(e) {
+        const rect = bgCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        const dx = x - cx, dy = y - cy;
+        const kx = dx !== 0 ? cx / Math.abs(dx) : Infinity;
+        const ky = dy !== 0 ? cy / Math.abs(dy) : Infinity;
+        const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+        let angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+        if (angle < 0) angle += 360;
+        bgCard.style.setProperty('--edge-proximity', (edge * 100).toFixed(3));
+        bgCard.style.setProperty('--cursor-angle', angle.toFixed(3) + 'deg');
+      });
+    })();
   </script>
 </body>
 
