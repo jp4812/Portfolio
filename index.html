@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jemil Patel | 3D Software Engineer Portfolio</title>
+  <meta name="description" content="Interactive 3D Portfolio for Jemil Patel — Full-Stack Developer and ML-focused Software Engineer." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="cyber-theme">
+  <!-- 3D WebGL Canvas Layer -->
+  <canvas id="webgl-canvas" aria-hidden="true"></canvas>
+
+  <!-- Interactive 3D Custom Cursor -->
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Ambient 3D Noise & Vignette Overlay -->
+  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="scanline-overlay" aria-hidden="true"></div>
+
+  <main class="portfolio-shell">
+    <!-- Holographic Profile Sidebar Card (Collapsible) -->
+    <aside class="profile-card" id="profile-sidebar">
+      <!-- Sleek Floating Collapse / Expand Button -->
+      <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle Profile Sidebar" title="Collapse / Expand Sidebar">
+        <i class="fa-solid fa-chevron-left" id="sidebar-toggle-icon"></i>
+      </button>
+
+      <div class="hologram-glow"></div>
+      
+      <!-- <div class="border-badge target-badge" title="Status: Online">
+        <i class="fa-regular fa-circle-dot"></i>
+      </div> -->
+      <!-- <div class="border-badge lightning-badge" title="Mode: High Performance">
+        <i class="fa-solid fa-bolt"></i>
+      </div> -->
+
+      <div class="profile-top">
+        <div class="portrait-container">
+          <!-- Cyberpunk 3D Holographic Orbit Ring -->
+          <div class="orbit-ring orbit-ring-1"></div>
+          <div class="orbit-ring orbit-ring-2"></div>
+          
+          <div class="portrait-frame">
+            <img src="jemil.jpeg" alt="Jemil Patel 3D Portrait" class="portrait-image" />
+          </div>
+        </div>
+
+        <!-- Collapsible Content (smoothly shrinks in collapsed mode) -->
+        <div class="profile-collapsible-content">
+          <div class="status-indicator-badge">
+            <span class="pulse-dot"></span>
+            <span class="status-text">Available for Opportunities</span>
+          </div>
+
+          <div class="profile-meta">
+            <p class="eyebrow text-center text-gradient">Software Engineer • Full-Stack • ML</p>
+            <h1 class="text-center glitched-name" data-text="Jemil Patel">Jemil Patel</h1>
+          </div>
+<!--           
+          <div class="flame-track-container">
+            <div class="energy-meter">
+              <div class="energy-fill"></div>
+            </div>
+            <div class="inline-flame-badge" title="Focus: High Impact Code">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+            </div>
+          </div> -->
+
+          <p class="bio text-center">Passionate Computer Science Engineer crafting scalable web architectures, machine learning workflows, and immersive digital experiences.</p>
+
+          <!-- <div class="profile-quick-stats">
+            <div class="quick-badge">
+              <span class="quick-num">3D/WebGL</span>
+              <span class="quick-label">Interactive</span>
+            </div>
+            <div class="quick-badge">
+              <span class="quick-num">Full-Stack</span>
+              <span class="quick-label">Production</span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="profile-footer-links">
+        <a href="https://github.com/jp4812" target="_blank" rel="noreferrer" class="social-link" aria-label="GitHub Profile" title="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://leetcode.com/u/emmi_2204/" target="_blank" rel="noreferrer" class="social-link" aria-label="LeetCode Profile" title="LeetCode">
+          <i class="fa-solid fa-code"></i>
+        </a>
+        <a href="mailto:jemilpatel4812@gmail.com" class="social-link" aria-label="Send Email" title="Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel with 3D Depth Navigation -->
+    <section class="content-panel" id="top">
+      <header class="nav-header">
+        <div class="nav-controls">
+          <!-- 3D Audio FX Synthesizer Toggle -->
+          <button class="audio-toggle" id="audio-toggle" aria-label="Toggle Audio Effects" title="Toggle 3D Audio FX">
+            <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
+            <span class="audio-tooltip">Sound FX: OFF</span>
+          </button>
+        </div>
+
+        <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <i class="fa-solid fa-bars-staggered close-icon-hidden"></i>
+          <i class="fa-solid fa-xmark close-icon-shown" style="display: none;"></i>
+        </button>
+        
+        <nav class="dock" aria-label="Primary Navigation Matrix">
+          <a href="#home" class="nav-link active-nav-route"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+          <a href="#timeline" class="nav-link"><i class="fa-solid fa-rocket"></i> <span>Projects</span></a>
+          <a href="#experience" class="nav-link"><i class="fa-solid fa-chart-line"></i> <span>CP Stats</span></a>
+          <a href="#skills" class="nav-link"><i class="fa-solid fa-layer-group"></i> <span>Skills</span></a>
+          <a href="#contact" class="nav-link"><i class="fa-solid fa-paper-plane"></i> <span>Contact</span></a>
+        </nav>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="panel-section hero-section" id="home">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <span class="tag-glow"></span>
+            <span class="eyebrow text-accent"><i class="fa-solid fa-terminal"></i> Jemil Patel | Software Engineer</span>
+          </div>
+
+          <h2 class="headline">
+            <span class="headline-part-1">SOFTWARE</span><br />
+            <span class="outline headline-part-2">ENGINEER</span>
+          </h2>
+          
+          <p class="lede">I design and ship resilient web platforms, automation systems, and ML-driven products with a focus on clean architecture, high speed, and measurable impact.</p>
+
+          <div class="hero-cta-row">
+            <a href="#timeline" class="btn-primary" data-magnetic>
+              <span>Explore Projects</span>
+              <i class="fa-solid fa-arrow-down"></i>
+            </a>
+            <a href="#contact" class="btn-secondary" data-magnetic>
+              <span>Get In Touch</span>
+              <i class="fa-solid fa-paper-plane"></i>
+            </a>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card" data-tilt data-tilt-max="12">
+              <div class="metric-icon-box"><i class="fa-solid fa-laptop-code"></i></div>
+              <div class="metric-data">
+                <strong>+5</strong>
+                <span>Academic &amp; production projects bridging modern web and AI workflows.</span>
+              </div>
+            </article>
+
+            <article class="metric-card" data-tilt data-tilt-max="12">
+              <div class="metric-icon-box"><i class="fa-solid fa-fire"></i></div>
+              <div class="metric-data">
+                <strong id="total-solved-count"><i class="fa-solid fa-spinner fa-spin"></i></strong>
+                <span>Total algorithmic problem-solving sessions across platforms.</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3D Interactive Projects Showcase -->
+      <section class="panel-section" id="timeline">
+        <div class="section-heading">
+          <p class="eyebrow"><i class="fa-solid fa-code-branch"></i> Engineering Showcase</p>
+          <h3>FEATURED<br /><span class="outline">PROJECTS</span></h3>
+        </div>
+
+        <div class="timeline-shell">
+          <div class="timeline-progress-line"></div>
+
+          <!-- Project 1: Battleship Game -->
+          <article class="timeline-card left">
+            <div class="timeline-dot timeline-node"><i class="fa-solid fa-gamepad"></i></div>
+            <div class="timeline-card-body" data-tilt data-tilt-max="10" data-tilt-glare="true">
+              <div class="card-top-bar">
+                <span class="timeline-year">2024</span>
+                <span class="project-tag-pill">C++ Architecture</span>
+              </div>
+              <h4>Battleship Game</h4>
+              <p class="timeline-copy">Engineered a modular console-based C++ Battleship simulation with multi-player and single-player bot logic, OOP design patterns, grid state management, and real-time win detection.</p>
+              
+              <div class="project-tech-pills">
+                <span><i class="devicon-cplusplus-plain colored"></i> C++</span>
+                <span><i class="fa-solid fa-brain"></i> Bot Logic</span>
+                <span><i class="fa-solid fa-cubes"></i> OOP</span>
+              </div>
+
+              <div class="timeline-actions">
+                <a href="https://github.com/jp4812/Battleship-Game" target="_blank" rel="noreferrer" class="timeline-view-link" aria-label="View Battleship Game on GitHub">
+                  <span>View Source Code</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: SolarIntel -->
+          <article class="timeline-card right">
+            <div class="timeline-dot timeline-node"><i class="fa-solid fa-solar-panel"></i></div>
+            <div class="timeline-card-body" data-tilt data-tilt-max="10" data-tilt-glare="true">
+              <div class="card-top-bar">
+                <span class="timeline-year">2025</span>
+                <span class="project-tag-pill highlight-pill">ML / Predictive AI</span>
+              </div>
+              <h4>SolarIntel</h4>
+              <p class="timeline-copy">Architected an intelligent solar monitoring platform utilizing machine learning &amp; XGBoost algorithms for inverter fault prediction, proactive AI diagnostics, and predictive maintenance telemetry.</p>
+              
+              <div class="project-tech-pills">
+                <span><i class="devicon-python-plain colored"></i> Python</span>
+                <span><i class="fa-solid fa-chart-line"></i> XGBoost</span>
+                <span><i class="fa-solid fa-robot"></i> ML Diagnostics</span>
+              </div>
+
+              <div class="timeline-actions">
+                <a href="https://github.com/nisarg-gandhi/latent-space-hackamined" target="_blank" rel="noreferrer" class="timeline-view-link" aria-label="View SolarIntel on GitHub">
+                  <span>View Source Code</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Misinformation Checker -->
+          <article class="timeline-card left">
+            <div class="timeline-dot timeline-node"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="timeline-card-body" data-tilt data-tilt-max="10" data-tilt-glare="true">
+              <div class="card-top-bar">
+                <span class="timeline-year">2026</span>
+                <span class="project-tag-pill">Full-Stack AI</span>
+              </div>
+              <h4>Misinformation Checker</h4>
+              <p class="timeline-copy">Designed and implemented a high-performance UI/UX and reactive frontend application for AI-powered misinformation detection, contextual fact verification, and real-time reliability scoring.</p>
+              
+              <div class="project-tech-pills">
+                <span><i class="devicon-react-original colored"></i> React</span>
+                <span><i class="devicon-tailwindcss-plain colored"></i> Tailwind CSS</span>
+                <span><i class="fa-solid fa-microchip"></i> AI Verification</span>
+              </div>
+
+              <div class="timeline-actions">
+                <a href="https://github.com/jp4812/Fact-Checker" target="_blank" rel="noreferrer" class="timeline-view-link" aria-label="View Misinformation Checker on GitHub">
+                  <span>View Source Code</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3D Competitive Programming Telemetry -->
+      <section class="panel-section" id="experience">
+        <div class="section-heading">
+          <p class="eyebrow"><i class="fa-solid fa-microchip"></i> Real-Time Telemetry</p>
+          <h3>COMPETITIVE<br /><span>PROGRAMMING</span></h3>
+        </div>
+        
+        <div class="cp-grid">
+          <article class="cp-card" data-tilt data-tilt-max="15" data-tilt-glare="true">
+            <div class="cp-card-glass"></div>
+            <div class="cp-badge-header">
+              <i class="fa-solid fa-code cp-icon leetcode-icon"></i>
+              <span class="platform-name">LeetCode</span>
+              <!-- <span class="live-pill"><span class="ping-circle"></span> Live Sync</span> -->
+            </div>
+            <div class="cp-body">
+              <strong id="leetcode-count" class="counter-display"><i class="fa-solid fa-spinner fa-spin"></i></strong>
+              <p class="cp-label">Problems Solved</p>
+              <div class="cp-profile-link">
+                <a href="https://leetcode.com/u/emmi_2204/" target="_blank" rel="noreferrer">
+                  @emmi_2204 <i class="fa-solid fa-external-link"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="cp-card" data-tilt data-tilt-max="15" data-tilt-glare="true">
+            <div class="cp-card-glass"></div>
+            <div class="cp-badge-header">
+              <i class="fa-solid fa-chart-column cp-icon codeforces-icon"></i>
+              <span class="platform-name">Codeforces</span>
+              <!-- <span class="live-pill"><span class="ping-circle"></span> Live Sync</span> -->
+            </div>
+            <div class="cp-body">
+              <strong id="codeforces-count" class="counter-display"><i class="fa-solid fa-spinner fa-spin"></i></strong>
+              <p class="cp-label">Problems Solved</p>
+              <div class="cp-profile-link">
+                <a href="https://codeforces.com/profile/jemil_4812" target="_blank" rel="noreferrer">
+                  @jemil_4812 <i class="fa-solid fa-external-link"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3D Interactive Skills & Core Stack -->
+      <section class="panel-section" id="skills">
+        <div class="section-heading">
+          <p class="eyebrow"><i class="fa-solid fa-cubes"></i> Technology Arsenal</p>
+          <h3>TOOLS &amp;<br /><span>SKILLS</span></h3>
+        </div>
+
+        <div class="chip-grid">
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-javascript-plain colored" aria-hidden="true"></i>
+              <span>JavaScript</span>
+            </div>
+          </div>
+          
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-react-original colored" aria-hidden="true"></i>
+              <span>React</span>
+            </div>
+          </div>
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-python-plain colored" aria-hidden="true"></i>
+              <span>Python</span>
+            </div>
+          </div>
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark fa-solid fa-robot text-accent" aria-hidden="true"></i>
+              <span>Machine Learning</span>
+            </div>
+          </div>
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-cplusplus-plain colored" aria-hidden="true"></i>
+              <span>C++</span>
+            </div>
+          </div>
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-nodejs-plain colored" aria-hidden="true"></i>
+              <span>Node.js</span>
+            </div>
+          </div>
+
+          <!-- <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-threejs-original colored" aria-hidden="true"></i>
+              <span>Three.js / WebGL</span>
+            </div>
+          </div> -->
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark fa-solid fa-database text-accent" aria-hidden="true"></i>
+              <span>SQL / Databases</span>
+            </div>
+          </div>
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark devicon-git-plain colored" aria-hidden="true"></i>
+              <span>Git / GitHub</span>
+            </div>
+          </div>
+
+          <div class="skill-chip" data-tilt data-tilt-max="20">
+            <div class="chip-inner">
+              <i class="chip-mark fa-solid fa-palette text-accent" aria-hidden="true"></i>
+              <span>UI Systems &amp; 3D</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3D Cyber Contact Terminal with Web3Forms -->
+      <section class="panel-section contact-panel" id="contact">
+        <div class="section-heading">
+          <p class="eyebrow"><i class="fa-solid fa-satellite-dish"></i> Direct Communication</p>
+          <h3>LET'S WORK<br /><span>TOGETHER</span></h3>
+        </div>
+
+        <div class="contact-wrapper" data-tilt data-tilt-max="6">
+          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+            <input type="hidden" name="access_key" value="0fd82e6a-e605-48fc-add0-ab85116041e5" />
+            <input type="hidden" name="subject" value="New 3D Portfolio Message from Jemil Patel" />
+
+            <div class="form-row">
+              <label class="form-group">
+                <span class="label-title"><i class="fa-solid fa-user"></i> Name</span>
+                <input type="text" name="name" placeholder="Enter your name" required autocomplete="name" />
+              </label>
+              
+              <label class="form-group">
+                <span class="label-title"><i class="fa-solid fa-envelope"></i> Email</span>
+                <input type="email" name="email" placeholder="you@domain.com" required autocomplete="email" />
+              </label>
+            </div>
+
+            <label class="form-group">
+              <span class="label-title"><i class="fa-solid fa-briefcase"></i> Project Scope / Opportunity</span>
+              <div class="custom-select-wrapper">
+                <select name="project_type">
+                  <option value="Full-Stack Web App">Full-Stack Web App Architecture</option>
+                  <option value="Machine Learning / AI">Machine Learning / AI Engineering</option>
+                  <option value="3D / Interactive Experience">3D / WebGL Interactive Experience</option>
+                  <option value="Software Engineer Role">Software Engineering Role</option>
+                  <option value="Other Inquiries">Other Inquiries</option>
+                </select>
+              </div>
+            </label>
+
+            <label class="form-group">
+              <span class="label-title"><i class="fa-solid fa-message"></i> Message</span>
+              <textarea name="message" rows="5" placeholder="Describe your project, roadmap, or technical requirements..." required></textarea>
+            </label>
+            
+            <div id="form-status" class="form-status-alert"></div>
+            
+            <button type="submit" id="submit-btn" class="btn-submit" data-magnetic>
+              <span>Transmit Message</span>
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+
+        <footer class="portfolio-footer">
+          <p>© 2026 Jemil Patel. Built with Three.js, WebGL &amp; Modern Web Standards.</p>
+        </footer>
+      </section>
+    </section>
+  </main>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
